@@ -18,8 +18,9 @@ module Redmine::OmniAuthCAS
 
       # This will force CAS authentication using OmniAuth
       def login_with_cas
-        redirect_to "/auth/cas"
+        redirect_to ( ActionController::Base.config.relative_url_root || '/' ) + 'auth/cas'
       end
+
 
       # This will logout the user from redmine AND force CAS logout 
       def logout_with_cas
