@@ -1,9 +1,11 @@
 # configures public url for our application
 OmniAuth.config.full_host = Proc.new do |env|
   url = env["rack.session"]["omniauth.origin"] || env["omniauth.origin"]
+
   #if no url found, fall back to config/app_config.yml addresses
   if url.blank?
-    url = Setting["host_name"]
+    # crindt: this is from the redmine Admin=>Settings=>Hostname and Path
+    url = 'http://'+Setting["host_name"]
   #else, parse it and remove both request_uri and query_string
   else
     uri = URI.parse(url)
