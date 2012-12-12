@@ -18,7 +18,7 @@ module Redmine::OmniAuthCAS
 
       # This will force CAS authentication using OmniAuth
       def login_with_cas
-        redirect_to ( ActionController::Base.config.relative_url_root || '/' ) + 'auth/cas'
+        redirect_to ( ActionController::Base.config.relative_url_root || '' ) + '/auth/cas'
       end
 
 
