@@ -8,8 +8,11 @@ module Redmine::OmniAuthCAS
     def self.included(base)
       base.send(:include, ClassMethods)
       base.class_eval do
-        alias_method_chain :login, :cas
-        alias_method_chain :logout, :cas
+        # alias_method_chain calls rename log(in|out) to log(in|out)_without_cas
+        # and points log(in|out) to log(in|out)_with_cas.  log(in|out)_with_cas
+        # implemented below
+        alias_method_chain :login, :cas    
+        alias_method_chain :logout, :cas   
       end
     end
 
@@ -20,7 +23,6 @@ module Redmine::OmniAuthCAS
       def login_with_cas
         redirect_to ( ActionController::Base.config.relative_url_root || '' ) + '/auth/cas'
       end
-
 
       # This will logout the user from redmine AND force CAS logout 
       def logout_with_cas
