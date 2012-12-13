@@ -1,0 +1,20 @@
+GEM
+  specs:
+    addressable (2.3.2)
+    hashie (1.2.0)
+    nokogiri (1.5.5)
+    omniauth (1.1.1)
+      hashie (~> 1.2)
+      rack
+    omniauth-cas (1.0.1)
+      addressable (~> 2.3)
+      nokogiri (~> 1.5)
+      omniauth (~> 1.1.0)
+    rack (1.4.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  omniauth (>= 1.1.1)
+  omniauth-cas (>= 1.0.1)
