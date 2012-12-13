@@ -57,19 +57,16 @@ module Redmine::OmniAuthCAS
       render :text => "Not Found", :status => 404
     end
 
-    private
-    def cas_url
-      Redmine::OmniAuthCAS.cas_server
-    end
 
     # from OmniAuth::Strategy, required for logout redirect.  crindt:FIXME: consider parameterizing the redirect host
-    private
+    # override existing to get request.env to full_host
     def full_host
       case OmniAuth.config.full_host
         when String
           OmniAuth.config.full_host
         when Proc
-          OmniAuth.config.full_host.call(env)
+          OmniAuth.logger.send(:info, "(cas) full_host IS PROC...CALLING WITH #{request.env}")
+          OmniAuth.config.full_host.call(request.env)
         else
           uri = URI.parse(request.url.gsub(/\?.*$/,''))
           uri.path = ''
@@ -78,6 +75,11 @@ module Redmine::OmniAuthCAS
           uri.scheme = 'https' if(request.env['HTTP_X_FORWARDED_PROTO'] == 'https')          
           uri.to_s
       end
+    end
+
+    private
+    def cas_url
+      Redmine::OmniAuthCAS.cas_server
     end
 
   end
