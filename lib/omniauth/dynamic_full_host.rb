@@ -1,6 +1,13 @@
 # configures public url for our application
 OmniAuth.config.full_host = Proc.new do |env|
   url = env["rack.session"]["omniauth.origin"] || env["omniauth.origin"]
+  OmniAuth.logger.send(:info, "(cas) ENVIRONMENT IS #{env}")
+
+  # crindt: fixme: this is reverse engineered by examining env in logs
+  if url.blank? && env["rack.url_scheme"] && env["HTTP_HOST"] && env["SCRIPT_NAME"]
+    # try HOST_NAME etc.
+    url = env["rack.url_scheme"]+"://"+env["HTTP_HOST"]+env["SCRIPT_NAME"]
+  end
 
   #if no url found, fall back to config/app_config.yml addresses
   if url.blank?
