@@ -27,7 +27,7 @@ module Redmine::OmniAuthCAS
       # This will logout the user from redmine AND force CAS logout 
       def logout_with_cas
         logout_user
-        redirect_to cas_url+"/logout?service=#{full_host}"
+        redirect_to cas_url+"/logout?service=#{redmine_base}"
       end
     end
 
@@ -75,6 +75,15 @@ module Redmine::OmniAuthCAS
           uri.scheme = 'https' if(request.env['HTTP_X_FORWARDED_PROTO'] == 'https')          
           uri.to_s
       end
+    end
+
+    def redmine_base(env)
+      # crindt: fixme: this is reverse engineered by examining env in logs
+      if env["rack.url_scheme"] && env["HTTP_HOST"] && env["SCRIPT_NAME"]
+        # try HOST_NAME etc.
+        url = env["rack.url_scheme"]+"://"+env["HTTP_HOST"]+env["SCRIPT_NAME"]
+      end
+      url
     end
 
     private
