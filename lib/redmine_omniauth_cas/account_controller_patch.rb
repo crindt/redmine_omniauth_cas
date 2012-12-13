@@ -27,7 +27,7 @@ module Redmine::OmniAuthCAS
       # This will logout the user from redmine AND force CAS logout 
       def logout_with_cas
         logout_user
-        redirect_to cas_url+"/logout?service=#{redmine_base}"
+        redirect_to cas_url+"/logout?service=#{redmine_base(request.env)}"
       end
     end
 
