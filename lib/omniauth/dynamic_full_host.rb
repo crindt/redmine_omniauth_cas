@@ -8,7 +8,7 @@ OmniAuth.config.full_host = Proc.new do |env|
     url = 'http://'+Setting["host_name"]
   #else, parse it and remove both request_uri and query_string
   else
-    puts("FULL HOST SET #{url}");
+    OmniAuth.logger.send(:info, "(cas) FULL HOST SET #{url}")
     uri = URI.parse(url)
     url = "#{uri.scheme}://#{uri.host}"
     url << ":#{uri.port}" unless uri.default_port == uri.port
