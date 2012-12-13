@@ -1,6 +1,6 @@
 # configures public url for our application
 OmniAuth.config.full_host = Proc.new do |env|
-  url = env["rack.session"]["omniauth.origin"] || env["omniauth.origin"]
+  url = env["rack.session"]["omniauth.origin"] || env["omniauth.origin"] || ActionController::Base.config.relative_url_root
 
   #if no url found, fall back to config/app_config.yml addresses
   if url.blank?
