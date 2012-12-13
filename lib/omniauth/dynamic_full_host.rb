@@ -5,6 +5,7 @@ OmniAuth.config.full_host = Proc.new do |env|
   #if no url found, fall back to config/app_config.yml addresses
   if url.blank?
     # crindt: this is from the redmine Admin=>Settings=>Hostname and Path
+    OmniAuth.logger.send(:info, "(cas) URL IS BLANK, PULLING FROM Setting")
     url = 'http://'+Setting["host_name"]
   #else, parse it and remove both request_uri and query_string
   else
